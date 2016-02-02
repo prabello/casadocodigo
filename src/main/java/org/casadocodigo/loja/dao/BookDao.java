@@ -32,8 +32,7 @@ public class BookDao implements CRUD<Book> {
 
 	@Override
 	public List<Book> list() {
-		// TODO Auto-generated method stub
-		return null;
+		return manager.createQuery("select distinct(b) from Book b join fetch b.authors",Book.class).getResultList();
 	}
 
 	@Override

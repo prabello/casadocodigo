@@ -5,11 +5,15 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.FacesComponent;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
 import org.casadocodigo.loja.dao.AuthorDao;
 import org.casadocodigo.loja.dao.BookDao;
+import org.casadocodigo.loja.infra.MessageHelper;
 import org.casadocodigo.loja.models.Author;
 import org.casadocodigo.loja.models.Book;
 
@@ -17,34 +21,40 @@ import org.casadocodigo.loja.models.Book;
 //@RequestScoped
 @Model
 public class AdminBooksBean {
-	
+
 	private Book product = new Book();
 	private BookDao bookDao;
 	private AuthorDao authorDao;
-	
+	@Inject
+	private MessageHelper messageHelper;
+
 	private List<Author> authors = new ArrayList<>();
 	private List<Integer> selectedAuthorsIds = new ArrayList<>();
-	
+
 	@Deprecated
 	public AdminBooksBean() {
 	}
-	
+
 	@PostConstruct
-	private void loadObjects(){
+	private void loadObjects() {
 		this.authors = authorDao.list();
 	}
-	
+
 	@Inject
-	public AdminBooksBean(BookDao bookDao,AuthorDao authorDao) {
+	public AdminBooksBean(BookDao bookDao, AuthorDao authorDao) {
 		this.bookDao = bookDao;
 		this.authorDao = authorDao;
 	}
-	
+
 	@Transactional
-	public void save(){
+	public String save() {
 		populateBookAuthor();
 		bookDao.save(product);
 		clearObjects();
+
+		messageHelper.addFlash(new FacesMessage("Livro " + product.getTitle() + "gravado com sucesso"));
+
+		return "/livros/lista?faces-redirect=true";
 	}
 
 	private void clearObjects() {
@@ -54,11 +64,11 @@ public class AdminBooksBean {
 
 	private void populateBookAuthor() {
 		System.out.println(selectedAuthorsIds + "========");
-		selectedAuthorsIds.stream().map( (id) -> {
+		selectedAuthorsIds.stream().map((id) -> {
 			return new Author(id);
-		}).forEach(product :: addAuthor);
+		}).forEach(product::addAuthor);
 	}
-	
+
 	public Book getProduct() {
 		return product;
 	}
