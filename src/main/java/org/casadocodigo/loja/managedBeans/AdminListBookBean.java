@@ -22,7 +22,7 @@ public class AdminListBookBean {
 	@Inject
 	public AdminListBookBean(BookDao bookDao) {
 		this.bookDao = bookDao;
-		this.books = bookDao.list();
+		this.books = this.bookDao.list();
 	}
 
 	public List<Book> getBooks() {
