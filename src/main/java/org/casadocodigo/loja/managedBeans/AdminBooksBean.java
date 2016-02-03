@@ -6,8 +6,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.FacesComponent;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
@@ -52,7 +50,7 @@ public class AdminBooksBean {
 		bookDao.save(product);
 		clearObjects();
 
-		messageHelper.addFlash(new FacesMessage("Livro " + product.getTitle() + "gravado com sucesso"));
+		messageHelper.addFlash(new FacesMessage("Livro " + product.getTitle() + " gravado com sucesso"));
 
 		return "/livros/lista?faces-redirect=true";
 	}
