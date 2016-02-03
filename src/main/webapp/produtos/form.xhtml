@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"> 
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"> 
 
 <h:head></h:head> 
 <h:body> 
@@ -25,6 +26,12 @@
 			<h:inputText value="#{adminBooksBean.product.numberOfPages}">
 				<f:validateLongRange minimum="80"/>
 			</h:inputText>
+		</div>
+		
+		<div>
+			<h:outputLabel value="Data de lançamento" />
+			<h:inputText value="#{adminBooksBean.product.releaseDate}" pt:type="date"/>
+<!-- 				<f:convertDateTime pattern="yyyy-MM-dd"/> -->
 		</div>
 		
 		<div>
