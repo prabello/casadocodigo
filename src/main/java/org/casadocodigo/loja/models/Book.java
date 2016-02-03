@@ -9,6 +9,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class Book {
@@ -16,12 +24,24 @@ public class Book {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@NotBlank
 	private String title;
+	
+	@NotEmpty
+	@NotNull
+	@Length(min = 10)
 	private String description;
+	
+	@Min(50)
 	private int numberOfPages;
+	
+	@DecimalMin("20")
 	private BigDecimal price;
 	
 	@ManyToMany
+	@Size(min = 1)
+	@NotNull
 	private List<Author> authors = new ArrayList<>();
 
 	@Override
