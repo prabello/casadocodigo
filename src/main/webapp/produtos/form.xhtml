@@ -8,7 +8,7 @@
 <h:head></h:head> 
 <h:body> 
 	<h:messages />
-	<h:form id="form" prependId="false">
+	<h:form id="form" prependId="false" enctype="multipart/form-data">
 		<div>
 			<h:outputLabel>Titulo</h:outputLabel>
 <!-- 			<h:inputText value="#{adminBooksBean.product.title}" required="true" id="titulo" requiredMessage="Campo obrigatório"/> -->
@@ -43,9 +43,14 @@
 		
 		<div>
 			<h:outputLabel value="Autores" />
-			<h:selectManyListbox value="#{adminBooksBean.selectedAuthorsIds}" converter="javax.faces.Integer">
-				<f:selectItems value="#{adminBooksBean.authors}" var="author" itemLabel="#{author.name}" itemValue="#{author.id}"/>
+			<h:selectManyListbox value="#{adminBooksBean.product.authors}" converter="entityConverter">
+				<f:selectItems value="#{adminBooksBean.authors}" var="author" itemLabel="#{author.name}" itemValue="#{author}"/>
 			</h:selectManyListbox>
+		</div>
+		
+		<div>
+			<h:outputLabel value="Sumário" />
+			<h:inputFile id="summary" label="Sumário do livro" value="#{adminBooksBean.summary}"/>
 		</div>
 		
 		<h:commandButton value="Gravar" action="#{adminBooksBean.save}" />

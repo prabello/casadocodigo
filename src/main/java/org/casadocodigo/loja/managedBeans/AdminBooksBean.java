@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.Stateful;
 import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
+import javax.servlet.http.Part;
 import javax.transaction.Transactional;
 
 import org.casadocodigo.loja.dao.AuthorDao;
 import org.casadocodigo.loja.dao.BookDao;
+import org.casadocodigo.loja.infra.FileSaver;
 import org.casadocodigo.loja.infra.MessageHelper;
 import org.casadocodigo.loja.models.Author;
 import org.casadocodigo.loja.models.Book;
@@ -18,6 +21,7 @@ import org.casadocodigo.loja.models.Book;
 //@Named
 //@RequestScoped
 @Model
+//@Stateful
 public class AdminBooksBean {
 
 	private Book product = new Book();
@@ -25,6 +29,10 @@ public class AdminBooksBean {
 	private AuthorDao authorDao;
 	@Inject
 	private MessageHelper messageHelper;
+
+	private Part summary;
+	@Inject
+	private FileSaver fileSaver;
 
 	private List<Author> authors = new ArrayList<>();
 	private List<Integer> selectedAuthorsIds = new ArrayList<>();
@@ -46,9 +54,11 @@ public class AdminBooksBean {
 
 	@Transactional
 	public String save() {
-		populateBookAuthor();
+		String summaryPath = fileSaver.write("summaries",summary);
+		product.setSummaryPath(summaryPath);
+		// populateBookAuthor();
 		bookDao.save(product);
-		clearObjects();
+		// clearObjects();
 
 		messageHelper.addFlash(new FacesMessage("Livro " + product.getTitle() + " gravado com sucesso"));
 
@@ -81,6 +91,14 @@ public class AdminBooksBean {
 
 	public List<Author> getAuthors() {
 		return authors;
+	}
+
+	public Part getSummary() {
+		return summary;
+	}
+
+	public void setSummary(Part summary) {
+		this.summary = summary;
 	}
 
 }

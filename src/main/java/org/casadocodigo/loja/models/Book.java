@@ -49,6 +49,10 @@ public class Book {
 	@NotNull
 	@Future
 	private Calendar releaseDate;
+	
+	private String summaryPath;
+	
+	private String coverPath;
 
 	@Override
 	public String toString() {
@@ -114,6 +118,22 @@ public class Book {
 
 	public void setReleaseDate(Calendar releaseDate) {
 		this.releaseDate = releaseDate;
+	}
+
+	public String getSummaryPath() {
+		return summaryPath;
+	}
+
+	public void setSummaryPath(String summaryPath) {
+		this.summaryPath = summaryPath;
+	}
+
+	public String getCoverPath() {
+		return coverPath;
+	}
+
+	public void setCoverPath(String coverPath) {
+		this.coverPath = coverPath;
 	}
 
 }

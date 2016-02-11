@@ -3,6 +3,7 @@ package org.casadocodigo.loja.managedBeans;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.Stateful;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 
@@ -10,6 +11,7 @@ import org.casadocodigo.loja.dao.BookDao;
 import org.casadocodigo.loja.models.Book;
 
 @Model
+//@Stateful
 public class AdminListBookBean {
 	private BookDao bookDao;
 	
