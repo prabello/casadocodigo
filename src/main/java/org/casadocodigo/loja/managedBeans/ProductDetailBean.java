@@ -20,7 +20,10 @@ public class ProductDetailBean {
 	@PersistenceContext(type=PersistenceContextType.EXTENDED)
 	private EntityManager manager;
 	
+//	@Inject
 	private BookDao bookDao;
+//	@Inject
+//	private CRUD<Book> bookDao;
 	private Book book;
 	private Integer id;
 
@@ -28,7 +31,7 @@ public class ProductDetailBean {
 	public ProductDetailBean() {
 	}
 
-	@Inject
+//	@Inject
 	public ProductDetailBean(BookDao bookDao) {
 		this.bookDao = bookDao;
 	}

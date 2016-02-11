@@ -22,7 +22,7 @@ public class ShoppingCart implements Serializable {
 		items.put(item, getQuantity(item) + 1);
 	}
 
-	private int getQuantity(ShoppingItem item) {
+	public int getQuantity(ShoppingItem item) {
 		if (!items.containsKey(item)) {
 			items.put(item, 0);
 		}
