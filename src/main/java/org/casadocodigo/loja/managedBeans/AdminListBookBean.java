@@ -3,7 +3,6 @@ package org.casadocodigo.loja.managedBeans;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Stateful;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 
