@@ -54,13 +54,13 @@ public class CheckoutBean {
 		// String contextName = context.getRealPath("/");
 
 		// http://localhost:8080/null/services/payment?uuid=77f55477-d455-4f53-92aa-58677490eb1a
-		String contextName = facesContext.getExternalContext().getContextName();
+		String contextName = facesContext.getExternalContext().getRequestContextPath();
 
 		HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
-		response.setStatus(307);
-		response.setHeader("Location", "/casadocodigo/services/payment?uuid=" + checkout.getUuid());
-		// response.setHeader("Location", "/" + contextName +
-		// "/services/payment?uuid=" + checkout.getUuid());
+//		response.setStatus(307);
+		response.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
+//		response.setHeader("Location", "/casadocodigo/services/payment?uuid=" + checkout.getUuid());
+		response.setHeader("Location", contextName + "/services/payment?uuid=" + checkout.getUuid());
 	}
 
 	public SystemUser getSystemUser() {

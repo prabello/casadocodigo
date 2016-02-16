@@ -45,9 +45,11 @@ public class BookDao implements CRUD<Book> {
 	}
 
 	public List<Book> lastReleases() {
-		return this.manager
+		this.manager
 				.createQuery("select b from Book b where b.releaseDate <= now() order by b.id desc", Book.class)
-				.setMaxResults(3).getResultList();
+				.setMaxResults(3);
+		
+		return null;
 	}
 
 	public List<Book> olderBooks() {
