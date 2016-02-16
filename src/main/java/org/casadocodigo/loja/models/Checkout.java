@@ -31,7 +31,7 @@ public class Checkout {
 	}
 	
 	@Deprecated
-	protected Checkout(){
+	Checkout(){
 		
 	}
 	

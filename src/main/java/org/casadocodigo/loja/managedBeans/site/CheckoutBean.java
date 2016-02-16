@@ -13,7 +13,6 @@ import org.casadocodigo.loja.dao.SystemUserDao;
 import org.casadocodigo.loja.models.Checkout;
 import org.casadocodigo.loja.models.ShoppingCart;
 import org.casadocodigo.loja.models.SystemUser;
-import org.casadocodigo.loja.services.PaymentGateway;
 
 @Named
 @RequestScoped
@@ -23,7 +22,7 @@ public class CheckoutBean {
 	private SystemUserDao systemUserDao;
 	private ShoppingCart shoppingCart;
 	private CheckoutDao checkoutDao;
-	private PaymentGateway paymentGateway;
+	// private PaymentGateway paymentGateway;
 	private FacesContext facesContext;
 	private SystemUser systemUser = new SystemUser();
 
@@ -33,11 +32,11 @@ public class CheckoutBean {
 
 	@Inject
 	public CheckoutBean(SystemUserDao systemUserDao, ShoppingCart shoppingCart, CheckoutDao checkoutDao,
-			PaymentGateway paymentGateway, FacesContext facesContext) {
+			FacesContext facesContext) {
 		this.systemUserDao = systemUserDao;
 		this.shoppingCart = shoppingCart;
 		this.checkoutDao = checkoutDao;
-		this.paymentGateway = paymentGateway;
+		// this.paymentGateway = paymentGateway;
 		this.facesContext = facesContext;
 	}
 
@@ -48,15 +47,20 @@ public class CheckoutBean {
 		Checkout checkout = new Checkout(systemUser, shoppingCart);
 		checkoutDao.save(checkout);
 
-		//Assim era sincrono :(
-//		paymentGateway.pay(shoppingCart.getTotal());
-		
+		// Assim era sincrono :(
+		// paymentGateway.pay(shoppingCart.getTotal());
+
+		// http://home/pedro/Documents/Caelum/37/wildfly9/wildfly-9.0.1.Final/standalone/deployments/casadocodigo.war/services/payment?uuid=3245120a-95bd-4680-9459-cbeea014b88e
+		// String contextName = context.getRealPath("/");
+
+		// http://localhost:8080/null/services/payment?uuid=77f55477-d455-4f53-92aa-58677490eb1a
 		String contextName = facesContext.getExternalContext().getContextName();
-		
+
 		HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
 		response.setStatus(307);
-		response.setHeader("Location", "/"+contextName+"/services/payment?uuid="+checkout.getUuid());
-		
+		response.setHeader("Location", "/casadocodigo/services/payment?uuid=" + checkout.getUuid());
+		// response.setHeader("Location", "/" + contextName +
+		// "/services/payment?uuid=" + checkout.getUuid());
 	}
 
 	public SystemUser getSystemUser() {

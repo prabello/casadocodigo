@@ -28,7 +28,7 @@ public class CheckoutEndpoint {
 	private PaymentGateway paymentGateway;
 
 	@Deprecated
-	CheckoutEndpoint() {
+	public CheckoutEndpoint() {
 	}
 
 	@Inject
@@ -47,6 +47,7 @@ public class CheckoutEndpoint {
 		paymentGateway.pay(total);
 		
 		URI redirectUri = UriBuilder.fromPath("http://localhost:8080" + contextPath + "/site/index.html").queryParam("msg", "Compra realizada com sucesso").build();
+		//Faz o 303, após um post manda o browser fazer um get para outro lugar
 		Response response = Response.seeOther(redirectUri).build();
 		
 		return response;
