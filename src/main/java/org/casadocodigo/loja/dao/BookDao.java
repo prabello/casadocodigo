@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.casadocodigo.loja.interfaces.CRUD;
 import org.casadocodigo.loja.models.Book;
+import org.hibernate.jpa.QueryHints;
 
 //@Stateful
 public class BookDao implements CRUD<Book> {
@@ -45,9 +47,11 @@ public class BookDao implements CRUD<Book> {
 	}
 
 	public List<Book> lastReleases() {
-		this.manager
+		TypedQuery<Book> query = this.manager
 				.createQuery("select b from Book b where b.releaseDate <= now() order by b.id desc", Book.class)
 				.setMaxResults(3);
+		
+		query.setHint(QueryHints.HINT_CACHEABLE, true);
 		
 		return null;
 	}
