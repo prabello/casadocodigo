@@ -39,6 +39,10 @@ public class Checkout {
 	public void prePersist(){
 		this.uuid = UUID.randomUUID().toString();
 	}
+	
+	public String getBuyerEmail(){
+		return buyer.getEmail();
+	}
 
 	public BigDecimal getValue() {
 		return value;

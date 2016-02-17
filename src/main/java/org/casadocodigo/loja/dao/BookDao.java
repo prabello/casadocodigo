@@ -13,7 +13,7 @@ import org.hibernate.jpa.QueryHints;
 //@Stateful
 public class BookDao implements CRUD<Book> {
 
-	@PersistenceContext//(type=PersistenceContextType.EXTENDED)
+	@PersistenceContext // (type=PersistenceContextType.EXTENDED)
 	private EntityManager manager;
 
 	@Deprecated
@@ -38,7 +38,10 @@ public class BookDao implements CRUD<Book> {
 	}
 
 	public List<Book> list() {
-		return manager.createQuery("select distinct(b) from Book b join fetch b.authors", Book.class).getResultList();
+		TypedQuery<Book> query = manager.createQuery("select distinct(b) from Book b join fetch b.authors", Book.class);
+		// query.setHint(QueryHints.HINT_CACHEABLE, true);
+
+		return query.getResultList();
 	}
 
 	public Book update(Book t) {
@@ -47,17 +50,30 @@ public class BookDao implements CRUD<Book> {
 	}
 
 	public List<Book> lastReleases() {
+		// ESSA QUERY TEM QUE SER <= now(), PARA QUE MOSTRE OS ULTIMOS LIVROS
+		// LANÇADOS, MUDEI PARA >= para mostrar mais resultados
 		TypedQuery<Book> query = this.manager
-				.createQuery("select b from Book b where b.releaseDate <= now() order by b.id desc", Book.class)
+				.createQuery("select b from Book b where b.releaseDate >= now() order by b.id desc", Book.class)
 				.setMaxResults(3);
-		
+
 		query.setHint(QueryHints.HINT_CACHEABLE, true);
-		
-		return null;
+
+		return query.getResultList();
 	}
 
+	// public List<Book> last(int number) {
+	// TypedQuery<Book> query = this.manager.createQuery("select b from Book b
+	// join fetch b.authors", Book.class)
+	// .setMaxResults(number);
+	// query.setHint(QueryHints.HINT_CACHEABLE, true);
+	// return query.getResultList();
+	// }
+
 	public List<Book> olderBooks() {
-		return this.manager.createQuery("select b from Book b", Book.class).setMaxResults(20).getResultList();
+		TypedQuery<Book> query = this.manager.createQuery("select b from Book b", Book.class).setMaxResults(20);
+
+		query.setHint(QueryHints.HINT_CACHEABLE, true);
+		return query.getResultList();
 	}
 
 }
