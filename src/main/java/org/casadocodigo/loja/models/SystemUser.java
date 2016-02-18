@@ -1,10 +1,15 @@
 package org.casadocodigo.loja.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import org.casadocodigo.loja.models.validation.groups.BuyerGroup;
 import org.hibernate.validator.constraints.Email;
@@ -13,34 +18,38 @@ import org.hibernate.validator.constraints.NotBlank;
 @Entity
 public class SystemUser {
 
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Email
 	@NotBlank
-	@Column(unique=true)
+	@Column(unique = true)
 	private String email;
-	@NotBlank(groups=BuyerGroup.class)
+	@NotBlank(groups = BuyerGroup.class)
 	private String firstName;
-	@NotBlank(groups=BuyerGroup.class)
+	@NotBlank(groups = BuyerGroup.class)
 	private String lastName;
-	@NotBlank(groups=BuyerGroup.class)
-	@Column(unique=true)
+	@NotBlank(groups = BuyerGroup.class)
+	@Column(unique = true)
 	private String socialId;
-	@NotBlank(groups=BuyerGroup.class)
+	@NotBlank(groups = BuyerGroup.class)
 	private String address;
-	@NotBlank(groups=BuyerGroup.class)
+	@NotBlank(groups = BuyerGroup.class)
 	private String city;
-	@NotBlank(groups=BuyerGroup.class)
+	@NotBlank(groups = BuyerGroup.class)
 	private String state;
-	@NotBlank(groups=BuyerGroup.class)
+	@NotBlank(groups = BuyerGroup.class)
 	private String postalCode;
-	@NotBlank(groups=BuyerGroup.class)
+	@NotBlank(groups = BuyerGroup.class)
 	private String phone;
-	@NotBlank(groups=BuyerGroup.class)
+	@NotBlank(groups = BuyerGroup.class)
 	private String country;
-	
+
 	private String password;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<SystemRole> roles = new ArrayList<>();
 
 	public Integer getId() {
 		return id;
@@ -137,5 +146,5 @@ public class SystemUser {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 }
